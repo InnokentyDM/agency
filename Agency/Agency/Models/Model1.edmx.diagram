@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="86dca1fd9265465bb0b2d80589b806c7" Name="Diagram1" ZoomLevel="62">
+        <EntityTypeShape EntityType="agencyModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="agencyModel.Ad" Width="1.5" PointX="5.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="agencyModel.AD_TYPE" Width="1.5" PointX="2.875" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="agencyModel.AspNetRole" Width="1.5" PointX="7.75" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="agencyModel.AspNetUserClaim" Width="1.5" PointX="12.25" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="agencyModel.AspNetUserLogin" Width="1.5" PointX="12.25" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="agencyModel.AspNetUser" Width="1.5" PointX="10" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="agencyModel.OBJECT_KIND" Width="1.5" PointX="0.5" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="agencyModel.OBJECT_TYPE" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
+        <AssociationConnector Association="agencyModel.FK_Ad_AD_TYPE" ManuallyRouted="false" />
+        <AssociationConnector Association="agencyModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="agencyModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="agencyModel.AspNetUserRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="agencyModel.OBJ" Width="1.5" PointX="2.5" PointY="1.375" />
+        <AssociationConnector Association="agencyModel.FK_Ad_OBJ" />
+        <AssociationConnector Association="agencyModel.FK_Object_OBJ_KIND" />
+        <AssociationConnector Association="agencyModel.FK_Object_OBJ_TYPE" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

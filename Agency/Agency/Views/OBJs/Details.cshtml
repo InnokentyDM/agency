@@ -1,0 +1,75 @@
+﻿@model Agency.Models.OBJ
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>OBJ</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ADDRESS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ADDRESS)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GeoLong)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GeoLong)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GeoLat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GeoLat)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ROOMS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ROOMS)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FLOOR)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FLOOR)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.KIND_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KIND_ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TYPE_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TYPE_ID)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
