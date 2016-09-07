@@ -1,6 +1,7 @@
 ﻿using Agency.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -43,6 +44,20 @@ namespace Agency.Controllers
             {
                 OBJ newObj = new OBJ();
                 Ad newAd = new Ad();
+                foreach (var i in model.Files)
+                {
+                    if (i.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(i.FileName);
+                        var fileNameWithPath = Path.Combine(Server.MapPath("~/App_Data/Files"), fileName);
+                        i.SaveAs(fileNameWithPath);
+                        //Make filepath relative
+                        Uri fromPath = new Uri(fileNameWithPath);
+                        Uri toPath = new Uri(Server.MapPath("./Files"));
+                        Uri path = toPath.MakeRelativeUri(fromPath);                     
+                        newObj.IMAGE += path + ";";
+                    }
+                }              
                 newObj = model.obj;
                 newAd = model.advert;
                 db.OBJs.Add(newObj);
@@ -52,8 +67,12 @@ namespace Agency.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception exc)
             {
+                Console.WriteLine(exc.ToString());  
+                ViewBag.OBJECT_KIND = new SelectList(db.OBJECT_KIND.Select(c => c.NAME).ToList());
+                ViewBag.OBJECT_TYPE = new SelectList(db.OBJECT_TYPE.Select(c => c.NAME).ToList());
+                ViewBag.AD_TYPE = new SelectList(db.AD_TYPE.Select(c => c.NAME).ToList());
                 return View();
             }
         }

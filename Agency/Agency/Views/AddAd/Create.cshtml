@@ -5,6 +5,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@Scripts.Render("~/bundles/file")
+
 <style>
     .stationInfo {
         height: 150px;
@@ -16,8 +18,7 @@
 
 <h2>Create</h2>
 
-
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Create", "AddAd", FormMethod.Post, new { encType = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
@@ -25,16 +26,11 @@
         <h4>Ad</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @*<input type="file" name="files" id="files" multiple />*@
 
-        <div class="jumbotron">
-            <form action="~/Home/SaveUploadedFile" method="post" enctype="multipart/form-data" class="dropzone" id="dropzoneForm" style="width: 50px; background: none; border: none;">
-                <div class="fallback">
-                    <input name="file" type="file" multiple />
-                    <input type="submit" value="Upload" />
-                </div>
-            </form>
-        </div>
+       @Html.TextBoxFor(m => m.Files, new {id="files", type = "file", name = "Files", multiple = "" })
 
+        <div id="filePreview"></div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.advert.AD_TYPE, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -162,7 +158,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" id="subm" class="btn btn-default" />
             </div>
         </div>
     </div>
@@ -176,7 +172,7 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
-<script>
+@*<script>
     function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
             center: { lat: 56.136288, lng: 40.397611 },
@@ -243,7 +239,7 @@
     }</script>
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD5mMei8ALRLhqMCuW6yzu7r8_TKQT4TJM&callback=initMap">
-</script>
+</script>*@
  <style>
       html, body {
         height: 100%;
@@ -306,31 +302,4 @@
         color: white;
     }
 </style>
-    <script type="text/javascript">
-    //    $(document).ready(function () {
-    //        Dropzone.autoDiscover = false;
-    //        //Simple Dropzonejs 
-    //        $("#dZUpload").dropzone({
-    //            url: "hn_SimpeFileUploader.ashx",
-    //            addRemoveLinks: true,
-    //            success: function (file, response) {
-    //                var imgName = response;
-    //                file.previewElement.classList.add("dz-success");
-    //                console.log("Successfully uploaded :" + imgName);
-    //            },
-    //            error: function (file, response) {
-    //                file.previewElement.classList.add("dz-error");
-    //            }
-    //        });
-         
-        //});
-        Dropzone.options.dropzoneForm = {
-            init: function () {
-                this.on("complete", function (data) {
-                    //var res = eval('(' + data.xhr.responseText + ')');
-                    var res = JSON.parse(data.xhr.responseText);
-                });
-            }
-        };
-</script>
 }
