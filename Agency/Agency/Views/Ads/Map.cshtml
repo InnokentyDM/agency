@@ -1,0 +1,67 @@
+﻿@model IEnumerable<Agency.Models.Ad>
+<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+<h2>Map</h2>
+
+<script>
+    $(document).ready(function () {
+        var geoLat = document.getElementsByClassName("hiddenGeoLat");
+        var geoLong = document.getElementsByClassName("hiddenGeoLong");
+        var coords = [];
+       
+        ymaps.ready(init);
+        var myMapж
+        function init() {
+            myMap = new ymaps.Map("map", {
+                center: [56.1365500, 40.3965800],
+                zoom: 10
+            });
+            // Создание элемента управления «Поиск по карте».
+            var searchControl = new ymaps.control.SearchControl({
+                options: {
+                    // Будет производиться поиск и по топонимам и по организациям.
+                    provider: 'yandex#search'
+                }
+            });
+
+            var objectManager = new ymaps.ObjectManager({
+                // Использовать кластеризацию.
+                clusterize: true
+            });
+
+            var currentId = 0;
+            for (var i = 0; i < geoLat.length; i++) {
+                var coords = [];
+                coords[0] = geoLat[i].value;
+                coords[1] = geoLong[i].value;
+                //coordsArr[i] = coords;
+                //var placemark = new ymaps.Placemark(coords);
+                objectManager.add({
+                    type: 'Feature',
+                    id: currentId++,
+                    geometry: {
+                        type: 'Point',
+                        coordinates: coords
+                    },
+                    properties: {
+                        hintContent: 'Текст всплывающей подсказки',
+                        balloonContent: 'Содержимое балуна'
+                    }
+                });
+            }
+            myMap.geoObjects.add(objectManager);
+            // Добавляем элемент управления на карту.
+            myMap.controls.add(searchControl);
+        }
+    });
+</script>
+
+<div id="map" style="width: 900px; height: 750px;">
+
+</div>
+@foreach (var item in Model) {
+            @Html.HiddenFor(modelItem => item.OBJ.GeoLat, new { @class = "hiddenGeoLat" })
+            @Html.HiddenFor(modelItem => item.OBJ.GeoLong, new { @class = "hiddenGeoLong" })
+}
+
+
+

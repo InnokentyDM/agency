@@ -34,7 +34,9 @@ namespace Agency
                          "~/Scripts/dropzone/css/basic.css",
                          "~/Scripts/dropzone/css/dropzone.css"));
 
-            bundles.Add(new ScriptBundle("~/bundles/file").Include("~/Scripts/FileProcess.js"));
+            bundles.Add(new ScriptBundle("~/bundles/file").Include(
+                        "~/Scripts/FileProcess.js",
+                        "~/Scripts/yandex-map.js"));
         }
     }
 }

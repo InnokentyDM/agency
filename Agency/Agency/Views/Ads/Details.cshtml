@@ -6,17 +6,47 @@
 }
 
 <h2>Details</h2>
+<script>
+    $(document).ready(function () {
+        var files = $('#hiddenImage').val();
+        var separator = ";";
+        var arrayOfStrings = files.split(separator);
+        var images = document.getElementById('images');
+        var max_width = 250;
+        var max_height = 250;
+        for (var i = 0; i < arrayOfStrings.length; i++)
+        {
+            var img = document.createElement('img');
+            img.src = arrayOfStrings[i];
+            var width = img.width;
+            var height = img.height;
+            if (width > height)
+            {
+                var factor = width / max_width;
+                img.width = max_width;
+                img.height = height / factor;
+            }
+            else if (width < height)
+            {
+                var factor = height / max_height;
+                img.height = max_height;
+                img.width = width / factor;
+            }
+            images.appendChild(img);
+        }
+    });
+</script>
 
 <div>
     <h4>Ad</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.AD_TYPE_ID)
+            @Html.DisplayNameFor(model => model.AD_TYPE.NAME)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.AD_TYPE_ID)
+            @Html.DisplayFor(model => model.AD_TYPE.NAME)
         </dd>
 
         <dt>
@@ -52,11 +82,54 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.OBJECT_ID)
+            @Html.DisplayNameFor(model => model.OBJ.OBJECT_KIND.NAME)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.OBJECT_ID)
+            @Html.DisplayFor(model => model.OBJ.OBJECT_KIND.NAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OBJ.OBJECT_TYPE.NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OBJ.OBJECT_TYPE.NAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OBJ.IMAGE)
+        </dt>
+
+        <dd>
+            @Html.HiddenFor(model => model.OBJ.IMAGE, new { id = "hiddenImage" })
+            <div id="images">
+
+            </div>
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OBJ.ADDRESS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OBJ.ADDRESS)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OBJ.FLOOR)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OBJ.FLOOR)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OBJ.ROOMS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OBJ.ROOMS)
         </dd>
 
     </dl>

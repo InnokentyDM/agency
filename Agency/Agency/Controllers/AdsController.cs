@@ -21,6 +21,12 @@ namespace Agency.Controllers
             return View(await db.Ads.ToListAsync());
         }
 
+
+        public ActionResult Map()
+        {
+            return PartialView("Map", db.Ads);
+        }
+
         // GET: Ads/Details/5
         public async Task<ActionResult> Details(int? id)
         {

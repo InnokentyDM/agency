@@ -1,0 +1,95 @@
+﻿@model IEnumerable<Agency.Models.Ad>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.advert.AD_TYPE_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.advert.TITLE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.advert.DESCRIPTION)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.advert.PRICE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.obj.FLOOR)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.obj.ADDRESS)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.obj.ROOMS)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.obj.OBJECT_KIND.NAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.obj.OBJECT_TYPE.NAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.obj.IMAGE)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.advert.AD_TYPE_ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.advert.TITLE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.advert.DESCRIPTION)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.advert.PRICE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.advert.PUBLISHED)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.advert.OBJECT_ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.obj.FLOOR)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.obj.ADDRESS)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.obj.ROOMS)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.obj.OBJECT_KIND.NAME)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.obj.OBJECT_TYPE.NAME)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.obj.IMAGE)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.advert.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.advert.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.advert.Id })
+            </td>
+        </tr>
+    }
+
+</table>
