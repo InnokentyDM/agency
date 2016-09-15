@@ -22,6 +22,8 @@
         <AssociationConnector Association="agencyModel.FK_Ad_OBJ" />
         <AssociationConnector Association="agencyModel.FK_Object_OBJ_KIND" />
         <AssociationConnector Association="agencyModel.FK_Object_OBJ_TYPE" />
+        <EntityTypeShape EntityType="agencyModel.DISCOUNT" Width="1.5" PointX="8.75" PointY="2.125" />
+        <AssociationConnector Association="agencyModel.FK_Ad_DISCOUNT" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

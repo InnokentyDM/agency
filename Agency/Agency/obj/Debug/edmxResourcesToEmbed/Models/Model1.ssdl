@@ -21,6 +21,9 @@
     <Property Name="PRICE" Type="money" Nullable="false" />
     <Property Name="PUBLISHED" Type="bit" Nullable="false" />
     <Property Name="OBJECT_ID" Type="int" Nullable="false" />
+    <Property Name="ADDITION_DATE" Type="datetime" Nullable="false" />
+    <Property Name="EXPIRED_DATE" Type="datetime" Nullable="false" />
+    <Property Name="DISCOUNT_ID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="AD_TYPE">
     <Key>
@@ -80,6 +83,13 @@
     <Property Name="AccessFailedCount" Type="int" Nullable="false" />
     <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
   </EntityType>
+  <EntityType Name="DISCOUNT">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Value" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="OBJ">
     <Key>
       <PropertyRef Name="Id" />
@@ -117,6 +127,18 @@
       </Principal>
       <Dependent Role="Ad">
         <PropertyRef Name="AD_TYPE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Ad_DISCOUNT">
+    <End Role="DISCOUNT" Type="Self.DISCOUNT" Multiplicity="1" />
+    <End Role="Ad" Type="Self.Ad" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DISCOUNT">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Ad">
+        <PropertyRef Name="DISCOUNT_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -221,11 +243,16 @@
     <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DISCOUNT" EntityType="Self.DISCOUNT" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OBJ" EntityType="Self.OBJ" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OBJECT_KIND" EntityType="Self.OBJECT_KIND" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OBJECT_TYPE" EntityType="Self.OBJECT_TYPE" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_Ad_AD_TYPE" Association="Self.FK_Ad_AD_TYPE">
       <End Role="AD_TYPE" EntitySet="AD_TYPE" />
+      <End Role="Ad" EntitySet="Ad" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Ad_DISCOUNT" Association="Self.FK_Ad_DISCOUNT">
+      <End Role="DISCOUNT" EntitySet="DISCOUNT" />
       <End Role="Ad" EntitySet="Ad" />
     </AssociationSet>
     <AssociationSet Name="FK_Ad_OBJ" Association="Self.FK_Ad_OBJ">

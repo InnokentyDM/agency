@@ -11,7 +11,7 @@ namespace Agency.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
     public partial class Ad
     {
         public int Id { get; set; }
@@ -21,8 +21,16 @@ namespace Agency.Models
         public decimal PRICE { get; set; }
         public bool PUBLISHED { get; set; }
         public int OBJECT_ID { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
+        public System.DateTime ADDITION_DATE { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
+        public System.DateTime EXPIRED_DATE { get; set; }
+        public int DISCOUNT_ID { get; set; }
     
         public virtual AD_TYPE AD_TYPE { get; set; }
         public virtual OBJ OBJ { get; set; }
+        public virtual DISCOUNT DISCOUNT1 { get; set; }
     }
 }

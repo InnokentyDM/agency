@@ -40,5 +40,7 @@ namespace Agency.Models
         public System.Data.Entity.DbSet<Agency.Models.Ad> Ads { get; set; }
 
         public System.Data.Entity.DbSet<Agency.Models.OBJ> OBJs { get; set; }
+
+        public System.Data.Entity.DbSet<Agency.Models.DISCOUNT> DISCOUNTs { get; set; }
     }
 }

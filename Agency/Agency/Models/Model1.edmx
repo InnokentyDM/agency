@@ -26,6 +26,9 @@
           <Property Name="PRICE" Type="money" Nullable="false" />
           <Property Name="PUBLISHED" Type="bit" Nullable="false" />
           <Property Name="OBJECT_ID" Type="int" Nullable="false" />
+          <Property Name="ADDITION_DATE" Type="datetime" Nullable="false" />
+          <Property Name="EXPIRED_DATE" Type="datetime" Nullable="false" />
+          <Property Name="DISCOUNT_ID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="AD_TYPE">
           <Key>
@@ -85,6 +88,13 @@
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
+        <EntityType Name="DISCOUNT">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Value" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="OBJ">
           <Key>
             <PropertyRef Name="Id" />
@@ -122,6 +132,18 @@
             </Principal>
             <Dependent Role="Ad">
               <PropertyRef Name="AD_TYPE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ad_DISCOUNT">
+          <End Role="DISCOUNT" Type="Self.DISCOUNT" Multiplicity="1" />
+          <End Role="Ad" Type="Self.Ad" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DISCOUNT">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ad">
+              <PropertyRef Name="DISCOUNT_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -226,11 +248,16 @@
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DISCOUNT" EntityType="Self.DISCOUNT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OBJ" EntityType="Self.OBJ" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OBJECT_KIND" EntityType="Self.OBJECT_KIND" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OBJECT_TYPE" EntityType="Self.OBJECT_TYPE" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Ad_AD_TYPE" Association="Self.FK_Ad_AD_TYPE">
             <End Role="AD_TYPE" EntitySet="AD_TYPE" />
+            <End Role="Ad" EntitySet="Ad" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ad_DISCOUNT" Association="Self.FK_Ad_DISCOUNT">
+            <End Role="DISCOUNT" EntitySet="DISCOUNT" />
             <End Role="Ad" EntitySet="Ad" />
           </AssociationSet>
           <AssociationSet Name="FK_Ad_OBJ" Association="Self.FK_Ad_OBJ">
@@ -289,6 +316,10 @@
           <Property Name="OBJECT_ID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="AD_TYPE" Relationship="Self.FK_Ad_AD_TYPE" FromRole="Ad" ToRole="AD_TYPE" />
           <NavigationProperty Name="OBJ" Relationship="agencyModel.FK_Ad_OBJ" FromRole="Ad" ToRole="OBJ" />
+          <Property Name="ADDITION_DATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EXPIRED_DATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DISCOUNT_ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DISCOUNT1" Relationship="agencyModel.FK_Ad_DISCOUNT" FromRole="Ad" ToRole="DISCOUNT" />
         </EntityType>
         <EntityType Name="AD_TYPE">
           <Key>
@@ -446,6 +477,11 @@
             <End Role="OBJECT_TYPE" EntitySet="OBJECT_TYPE" />
             <End Role="OBJ" EntitySet="OBJs" />
           </AssociationSet>
+          <EntitySet Name="DISCOUNTs" EntityType="agencyModel.DISCOUNT" />
+          <AssociationSet Name="FK_Ad_DISCOUNT" Association="agencyModel.FK_Ad_DISCOUNT">
+            <End Role="DISCOUNT" EntitySet="DISCOUNTs" />
+            <End Role="Ad" EntitySet="Ads" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="OBJ">
           <Key>
@@ -500,6 +536,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="DISCOUNT">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Value" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Ads" Relationship="agencyModel.FK_Ad_DISCOUNT" FromRole="DISCOUNT" ToRole="Ad" />
+        </EntityType>
+        <Association Name="FK_Ad_DISCOUNT">
+          <End Type="agencyModel.DISCOUNT" Role="DISCOUNT" Multiplicity="1" />
+          <End Type="agencyModel.Ad" Role="Ad" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DISCOUNT">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ad">
+              <PropertyRef Name="DISCOUNT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -519,6 +575,9 @@
           <EntitySetMapping Name="Ads">
             <EntityTypeMapping TypeName="agencyModel.Ad">
               <MappingFragment StoreEntitySet="Ad">
+                <ScalarProperty Name="DISCOUNT_ID" ColumnName="DISCOUNT_ID" />
+                <ScalarProperty Name="EXPIRED_DATE" ColumnName="EXPIRED_DATE" />
+                <ScalarProperty Name="ADDITION_DATE" ColumnName="ADDITION_DATE" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="AD_TYPE_ID" ColumnName="AD_TYPE_ID" />
                 <ScalarProperty Name="TITLE" ColumnName="TITLE" />
@@ -617,6 +676,14 @@
                 <ScalarProperty Name="GeoLat" ColumnName="GeoLat" />
                 <ScalarProperty Name="GeoLong" ColumnName="GeoLong" />
                 <ScalarProperty Name="ADDRESS" ColumnName="ADDRESS" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DISCOUNTs">
+            <EntityTypeMapping TypeName="agencyModel.DISCOUNT">
+              <MappingFragment StoreEntitySet="DISCOUNT">
+                <ScalarProperty Name="Value" ColumnName="Value" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

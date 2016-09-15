@@ -5,7 +5,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@Scripts.Render("~/bundles/file")
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/File")
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+   
+}
+
 
 <style>
     .stationInfo {
@@ -13,8 +19,6 @@
         width: 250px;
     }
 </style>
-
-
 
 <h2>Create</h2>
 
@@ -36,8 +40,8 @@
             @Html.LabelFor(model => model.advert.AD_TYPE, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @*@Html.EditorFor(model => model.advert.AD_TYPE_ID, new { htmlAttributes = new { @class = "form-control" } })*@
-                @Html.DropDownListFor(model => model.advert.AD_TYPE.NAME, (SelectList)ViewBag.AD_TYPE)
-                @Html.ValidationMessageFor(model => model.advert.AD_TYPE.NAME, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(model => model.advert.AD_TYPE_ID, (SelectList)ViewBag.AD_TYPE)
+                @Html.ValidationMessageFor(model => model.advert.AD_TYPE_ID, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -79,8 +83,8 @@
             @Html.LabelFor(model => model.obj.OBJECT_KIND, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @*@Html.EditorFor(model => model.advert.AD_TYPE_ID, new { htmlAttributes = new { @class = "form-control" } })*@
-                @Html.DropDownListFor(model => model.obj.OBJECT_KIND.NAME, (SelectList)ViewBag.OBJECT_KIND)
-                @Html.ValidationMessageFor(model => model.obj.OBJECT_KIND.NAME, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(model => model.obj.KIND_ID, (SelectList)ViewBag.OBJECT_KIND)
+                @Html.ValidationMessageFor(model => model.obj.TYPE_ID, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -88,16 +92,27 @@
             @Html.LabelFor(model => model.obj.OBJECT_TYPE, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @*@Html.EditorFor(model => model.advert.AD_TYPE_ID, new { htmlAttributes = new { @class = "form-control" } })*@
-                @Html.DropDownListFor(model => model.obj.OBJECT_TYPE.NAME, (SelectList)ViewBag.OBJECT_TYPE)
-                @Html.ValidationMessageFor(model => model.obj.OBJECT_TYPE.NAME, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(model => model.obj.TYPE_ID, (SelectList)ViewBag.OBJECT_TYPE)
+                @Html.ValidationMessageFor(model => model.obj.TYPE_ID, "", new { @class = "text-danger" })
             </div>
         </div>
 
+        <div class="form-group">
+            @Html.LabelFor(model => model.advert.DISCOUNT1, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.EditorFor(model => model.advert.AD_TYPE_ID, new { htmlAttributes = new { @class = "form-control" } })*@
+                @Html.DropDownListFor(model => model.advert.DISCOUNT_ID, (SelectList)ViewBag.DISCOUNT)
+                @Html.ValidationMessageFor(model => model.advert.DISCOUNT_ID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        
+
         <div class="form-group">          
             <div class="col-md-10">
-                @Html.HiddenFor(model => model.obj.GeoLat)
-                @Html.HiddenFor(model => model.obj.GeoLong)
-                @Html.ValidationMessageFor(model => model.obj.OBJECT_TYPE, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.obj.GeoLat, new { id = "hiddenGeoLat" })
+                @Html.HiddenFor(model => model.obj.GeoLong, new { id = "hiddenGeoLong" })
+                @Html.HiddenFor(model => model.obj.ADDRESS, new { id = "hiddenAddress" })
             </div>
         </div>
 
@@ -143,19 +158,27 @@
             </div>
         </div>
 
-        
-
-        <input id="pac-input" class="controls" type="text" placeholder="Search Box">
-        <div id="map"></div>
-
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.obj., htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.advert.ADDITION_DATE, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.OBJECT_ID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.OBJECT_ID, "", new { @class = "text-danger" })
+                @*@Html.EditorFor(model => model.advert.AD_TYPE_ID, new { htmlAttributes = new { @class = "form-control" } })*@
+                @Html.EditorFor(model => model.advert.ADDITION_DATE)
+                @Html.ValidationMessageFor(model => model.advert.ADDITION_DATE, "", new { type="date" })
             </div>
-        </div>*@
+            @Html.Label("Дата начала публикации объявления")
+        </div>
 
+        <div class="form-group">
+            @Html.LabelFor(model => model.advert.EXPIRED_DATE, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.EditorFor(model => model.advert.AD_TYPE_ID, new { htmlAttributes = new { @class = "form-control" } })*@
+                @Html.EditorFor(model => model.advert.EXPIRED_DATE)
+                @Html.ValidationMessageFor(model => model.advert.EXPIRED_DATE, "", new { type="date" })
+            </div>
+            @Html.Label("Дата снятия объявления с публикации")
+        </div>
+
+        <div id="map" style="width:600px; height:500px"></div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" id="subm" class="btn btn-default" />
@@ -169,137 +192,3 @@
 </div>
 
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-
-@*<script>
-    function initMap() {
-        var map = new google.maps.Map(document.getElementById('map'), {
-            center: { lat: 56.136288, lng: 40.397611 },
-            zoom: 12,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        });
-
-        // Create the search box and link it to the UI element.
-        var input = document.getElementById('pac-input');
-        var searchBox = new google.maps.places.SearchBox(input);
-        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
-        // Bias the SearchBox results towards current map's viewport.
-        map.addListener('bounds_changed', function() {
-            searchBox.setBounds(map.getBounds());
-        });
-
-        var markers = [];
-        // [START region_getplaces]
-        // Listen for the event fired when the user selects a prediction and retrieve
-        // more details for that place.
-        searchBox.addListener('places_changed', function() {
-            var places = searchBox.getPlaces();
-
-            if (places.length == 0) {
-                return;
-            }
-
-            // Clear out the old markers.
-            markers.forEach(function(marker) {
-                marker.setMap(null);
-            });
-            markers = [];
-
-            // For each place, get the icon, name and location.
-            var bounds = new google.maps.LatLngBounds();
-            places.forEach(function(place) {
-                var icon = {
-                    url: place.icon,
-                    size: new google.maps.Size(71, 71),
-                    origin: new google.maps.Point(0, 0),
-                    anchor: new google.maps.Point(17, 34),
-                    scaledSize: new google.maps.Size(25, 25)
-                };
-
-                // Create a marker for each place.
-                markers.push(new google.maps.Marker({
-                    map: map,
-                    icon: icon,
-                    title: place.name,
-                    position: place.geometry.location
-                }));
-
-                if (place.geometry.viewport) {
-                    // Only geocodes have viewport.
-                    bounds.union(place.geometry.viewport);
-                } else {
-                    bounds.extend(place.geometry.location);
-                }
-            });
-            map.fitBounds(bounds);
-        });
-        // [END region_getplaces]
-    }</script>
-<script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD5mMei8ALRLhqMCuW6yzu7r8_TKQT4TJM&callback=initMap">
-</script>*@
- <style>
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-    
-.controls {
-  margin-top: 10px;
-  border: 1px solid transparent;
-  border-radius: 2px 0 0 2px;
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  height: 32px;
-  outline: none;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-}
-
-#pac-input {
-  background-color: #fff;
-  font-family: Roboto;
-  font-size: 15px;
-  font-weight: 300;
-  margin-left: 12px;
-  padding: 0 11px 0 13px;
-  text-overflow: ellipsis;
-  width: 300px;
-}
-
-#pac-input:focus {
-  border-color: #4d90fe;
-}
-
-.pac-container {
-  font-family: Roboto;
-}
-
-#type-selector {
-  color: #fff;
-  background-color: #4d90fe;
-  padding: 5px 11px 0px 11px;
-}
-
-#type-selector label {
-  font-family: Roboto;
-  font-size: 13px;
-  font-weight: 300;
-}
-    #map {
-        width: 100%;
-        height: 400px;
-        background-color: grey;
-    }
-    #dropZone {
-        background: gray;
-        border: black dashed 3px;
-        width: 200px;
-        padding: 50px;
-        text-align: center;
-        color: white;
-    }
-</style>
-}

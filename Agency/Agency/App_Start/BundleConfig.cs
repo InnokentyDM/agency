@@ -9,7 +9,7 @@ namespace Agency
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-3.1.0.js"));
+                        "~/Scripts/jquery-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -23,18 +23,14 @@ namespace Agency
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/dropzonescripts").Include(
-                      "~/Scripts/dropzone/dropzone.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                        "~/Content/bootstrap.css",
                        "~/Content/site.css"));
 
-            bundles.Add(new StyleBundle("~/Content/dropzonescss").Include(
-                         "~/Scripts/dropzone/css/basic.css",
-                         "~/Scripts/dropzone/css/dropzone.css"));
-
-            bundles.Add(new ScriptBundle("~/bundles/file").Include("~/Scripts/FileProcess.js"));
+            bundles.Add(new ScriptBundle("~/bundles/file").Include(
+                        "~/Scripts/FileProcess.js",
+                        "~/Scripts/yandex-map.js"));
         }
     }
 }

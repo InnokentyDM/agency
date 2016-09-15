@@ -23,6 +23,10 @@
     <Property Name="OBJECT_ID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="AD_TYPE" Relationship="Self.FK_Ad_AD_TYPE" FromRole="Ad" ToRole="AD_TYPE" />
     <NavigationProperty Name="OBJ" Relationship="agencyModel.FK_Ad_OBJ" FromRole="Ad" ToRole="OBJ" />
+    <Property Name="ADDITION_DATE" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="EXPIRED_DATE" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="DISCOUNT_ID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="DISCOUNT1" Relationship="agencyModel.FK_Ad_DISCOUNT" FromRole="Ad" ToRole="DISCOUNT" />
   </EntityType>
   <EntityType Name="AD_TYPE">
     <Key>
@@ -180,6 +184,11 @@
       <End Role="OBJECT_TYPE" EntitySet="OBJECT_TYPE" />
       <End Role="OBJ" EntitySet="OBJs" />
     </AssociationSet>
+    <EntitySet Name="DISCOUNTs" EntityType="agencyModel.DISCOUNT" />
+    <AssociationSet Name="FK_Ad_DISCOUNT" Association="agencyModel.FK_Ad_DISCOUNT">
+      <End Role="DISCOUNT" EntitySet="DISCOUNTs" />
+      <End Role="Ad" EntitySet="Ads" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="OBJ">
     <Key>
@@ -231,6 +240,26 @@
       </Principal>
       <Dependent Role="OBJ">
         <PropertyRef Name="TYPE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="DISCOUNT">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Value" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Ads" Relationship="agencyModel.FK_Ad_DISCOUNT" FromRole="DISCOUNT" ToRole="Ad" />
+  </EntityType>
+  <Association Name="FK_Ad_DISCOUNT">
+    <End Type="agencyModel.DISCOUNT" Role="DISCOUNT" Multiplicity="1" />
+    <End Type="agencyModel.Ad" Role="Ad" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DISCOUNT">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Ad">
+        <PropertyRef Name="DISCOUNT_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

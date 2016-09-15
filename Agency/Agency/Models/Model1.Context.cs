@@ -35,5 +35,6 @@ namespace Agency.Models
         public virtual DbSet<OBJECT_KIND> OBJECT_KIND { get; set; }
         public virtual DbSet<OBJECT_TYPE> OBJECT_TYPE { get; set; }
         public virtual DbSet<OBJ> OBJs { get; set; }
+        public virtual DbSet<DISCOUNT> DISCOUNTs { get; set; }
     }
 }

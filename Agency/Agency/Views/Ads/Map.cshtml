@@ -1,0 +1,96 @@
+﻿@model IEnumerable<Agency.Models.Ad>
+<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+<h2>Map</h2>
+
+<script>
+    $(document).ready(function () {
+        var geoLat = document.getElementsByClassName("hiddenGeoLat");
+        var geoLong = document.getElementsByClassName("hiddenGeoLong");
+        var prices = document.getElementsByClassName("hiddenPrice");
+        var titles = document.getElementsByClassName("hiddenTitle");
+        var images = document.getElementsByClassName("hiddenImage");
+        var resImages = [];
+        var separator = ";";
+        for (var i = 0; i < images.length; i++)
+        {
+            var string = images[i].value;
+            var arrayOfStrings = string.split(separator);
+            resImages[i] = arrayOfStrings[0];
+        }
+        var ids = document.getElementsByClassName("hiddenId");
+        var html = [];
+        for (var i = 0; i < ids.length; i++)
+        {
+            html[i] = "<h1>" + titles[i].value + "</h1><br>" + "<img src=" + resImages[i] + " width=200 height=200/><p>" + prices[i].value + "</p>";
+        }
+
+        var coords = [];
+       
+        ymaps.ready(init);
+        var myMapж
+        function init() {
+            myMap = new ymaps.Map("map", {
+                center: [56.1365500, 40.3965800],
+                zoom: 10
+            });
+            // Создание элемента управления «Поиск по карте».
+            var searchControl = new ymaps.control.SearchControl({
+                options: {
+                    // Будет производиться поиск и по топонимам и по организациям.
+                    provider: 'yandex#search'
+                }
+            });
+
+            var objectManager = new ymaps.ObjectManager({
+                // Использовать кластеризацию.
+                clusterize: true
+            });
+
+            var currentId = 0;
+            for (var i = 0; i < geoLat.length; i++) {
+                var coords = [];
+                coords[0] = geoLat[i].value;
+                coords[1] = geoLong[i].value;
+                //coordsArr[i] = coords;
+                //var placemark = new ymaps.Placemark(coords);
+                objectManager.add({
+                    type: 'Feature',
+                    id: currentId++,
+                    geometry: {
+                        type: 'Point',
+                        coordinates: coords
+                    },
+                    properties: {
+                        hintContent: titles[i].value,
+                        balloonContent: html[i]
+                    }
+                });
+            }
+            for (var i = 0; i < objectManager.length; i++)
+            {
+                objectManager[i].events.add('click', function (e) {
+                    var coords = e.get('coords');
+                    alert(coords)
+                });
+            }
+            myMap.geoObjects.add(objectManager);
+            // Добавляем элемент управления на карту.
+            myMap.controls.add(searchControl);
+        }
+    });
+</script>
+
+<div id="map" style="width: 900px; height: 750px;">
+
+</div>
+@foreach (var item in Model) {
+            @Html.HiddenFor(modelItem => item.Id, new { @class = "hiddenId" })
+            @Html.HiddenFor(modelItem => item.OBJ.GeoLat, new { @class = "hiddenGeoLat" })
+            @Html.HiddenFor(modelItem => item.OBJ.GeoLong, new { @class = "hiddenGeoLong" })
+            @Html.HiddenFor(modelItem => item.OBJ.IMAGE, new { @class = "hiddenImage" })
+            @Html.HiddenFor(modelItem => item.TITLE, new { @class = "hiddenTitle" })
+            @Html.HiddenFor(modelItem => item.PRICE, new { @class = "hiddenPrice" })
+}
+
+
+

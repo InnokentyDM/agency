@@ -5,6 +5,19 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<script>
+    $(document).ready(function () {
+        var images = document.getElementsByClassName('preview');
+        var path = document.getElementsByClassName('hiddenImages');
+        var separator = ";";
+        for (var i = 0; i < path.length; i++)
+        {
+            var string = path[i].value;
+            var arrayOfStrings = string.split(separator);
+            images[i].src = arrayOfStrings[0];
+        }
+    });
+</script>
 <h2>Index</h2>
 
 <p>
@@ -12,9 +25,6 @@
 </p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.AD_TYPE_ID)
-        </th>
         <th>
             @Html.DisplayNameFor(model => model.TITLE)
         </th>
@@ -28,16 +38,28 @@
             @Html.DisplayNameFor(model => model.PUBLISHED)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.OBJECT_ID)
+            @Html.DisplayNameFor(model => model.OBJ.FLOOR)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OBJ.ADDRESS)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OBJ.ROOMS)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OBJ.OBJECT_KIND.NAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OBJ.OBJECT_TYPE.NAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OBJ.IMAGE)
         </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.AD_TYPE_ID)
-        </td>
         <td>
             @Html.DisplayFor(modelItem => item.TITLE)
         </td>
@@ -51,7 +73,23 @@
             @Html.DisplayFor(modelItem => item.PUBLISHED)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.OBJECT_ID)
+            @Html.DisplayFor(modelItem => item.OBJ.FLOOR)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OBJ.ADDRESS)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OBJ.ROOMS)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OBJ.OBJECT_KIND.NAME)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OBJ.OBJECT_TYPE.NAME)
+        </td>
+        <td>
+            @Html.HiddenFor(modelItem => item.OBJ.IMAGE, new { @class="hiddenImages" })
+            <img id="@item.Id" class="preview"/>
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

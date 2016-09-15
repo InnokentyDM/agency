@@ -14,6 +14,9 @@
     <EntitySetMapping Name="Ads">
       <EntityTypeMapping TypeName="agencyModel.Ad">
         <MappingFragment StoreEntitySet="Ad">
+          <ScalarProperty Name="DISCOUNT_ID" ColumnName="DISCOUNT_ID" />
+          <ScalarProperty Name="EXPIRED_DATE" ColumnName="EXPIRED_DATE" />
+          <ScalarProperty Name="ADDITION_DATE" ColumnName="ADDITION_DATE" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="AD_TYPE_ID" ColumnName="AD_TYPE_ID" />
           <ScalarProperty Name="TITLE" ColumnName="TITLE" />
@@ -112,6 +115,14 @@
           <ScalarProperty Name="GeoLat" ColumnName="GeoLat" />
           <ScalarProperty Name="GeoLong" ColumnName="GeoLong" />
           <ScalarProperty Name="ADDRESS" ColumnName="ADDRESS" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DISCOUNTs">
+      <EntityTypeMapping TypeName="agencyModel.DISCOUNT">
+        <MappingFragment StoreEntitySet="DISCOUNT">
+          <ScalarProperty Name="Value" ColumnName="Value" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
